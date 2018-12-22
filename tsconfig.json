@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": true,
+    "target": "es5",
+    "module": "ES2015",
+    "outDir": "dist",
+    "lib": ["es5", "es6", "es7"]
+  },
+  "include": [
+    "./src/**/*",
+    "./generators/**/*"
+  ],
+  "exclude": [
+    "./node_modules/**/*"
+  ]
+}
