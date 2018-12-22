@@ -5,6 +5,7 @@
     "target": "es5",
     "module": "ES2015",
     "outDir": "dist",
+    "strictNullChecks": true,
     "lib": ["es5", "es6", "es7"]
   },
   "include": [
