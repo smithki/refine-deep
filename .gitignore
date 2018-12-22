@@ -2,6 +2,6 @@ node_modules/**/*
 npm-debug.log
 src/**/*.js
 src/**/*.js.map
-dist/**
+dist/**/*
 .vscode/**/*
 .rts2_cache_*
