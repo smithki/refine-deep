@@ -1,6 +1,6 @@
 {
   "name": "refine-deep",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Recursively remove falsey values from JS objects.",
   "author": {
     "name": "Ian K Smith",
@@ -9,14 +9,18 @@
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "unpkg": "dist/index.umd.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "clean": "npm-run-all clean:*",
     "clean:dist": "rimraf ./dist",
     "clean:cache": "rimraf .rts2_cache_*",
     "dev": "npm-run-all -s clean:dist compile_watch",
     "build": "npm-run-all -s clean:dist compile",
-    "compile": "microbundle build src/index.ts --format cjs",
-    "compile_watch": "microbundle watch src/index.ts --format cjs",
+    "compile": "microbundle build src/index.ts",
+    "compile_watch": "microbundle watch src/index.ts",
     "lint": "tslint --project ./tsconfig.json",
     "precommit": "lint-staged && npm run docs",
     "prepublish": "npm run build"
