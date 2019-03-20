@@ -14,16 +14,24 @@
     "dist"
   ],
   "scripts": {
-    "clean": "npm-run-all clean:*",
-    "clean:dist": "rimraf ./dist",
+    "dev": "npm-run-all -s clean:dist -p compile_watch:*",
+    "build": "npm-run-all -s clean:dist -p compile:*",
+    "compile:cjs": "microbundle build src/index.cjs.ts --format cjs --external none",
+    "compile:umd": "microbundle build src/index.umd.ts --format umd --name refineDeep --external none",
+    "compile_watch:cjs": "microbundle watch src/index.cjs.ts --format cjs --external none",
+    "compile_watch:umd": "microbundle watch src/index.umd.ts --format umd --name refineDeep --external none",
+    "clean": "npm-run-all -s clean:*",
+    "clean:dist": "rimraf dist",
+    "clean:test-dist": "rimraf test/dist",
     "clean:cache": "rimraf .rts2_cache_*",
-    "dev": "npm-run-all -s clean:dist compile_watch",
-    "build": "npm-run-all -s clean:dist compile",
-    "compile": "microbundle build src/index.ts",
-    "compile_watch": "microbundle watch src/index.ts",
+    "test-watch": "npm-run-all -s test:compile -p test-watch:*",
+    "test-watch:compile": "tsc -w -p ./test",
+    "test-watch:run": "chokidar \"./test/dist/**/*.spec.js\" -c \"npm run test:run\" --initial \"npm run test:run\"",
+    "test": "npm-run-all -s clean:test-dist test:*",
+    "test:compile": "tsc -p ./test",
+    "test:run": "alsatian ./test/dist/**/*.spec.js",
     "lint": "tslint --project ./tsconfig.json",
-    "precommit": "lint-staged && npm run docs",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "lint-staged": {
     "*.ts": [
@@ -34,6 +42,7 @@
   "devDependencies": {
     "@ikscodes/tslint-config": "^5.3.1",
     "@types/node": "^9.4.6",
+    "alsatian": "^2.4.0",
     "husky": "^0.14.3",
     "lint-staged": "~7.3.0",
     "microbundle": "^0.9.0",

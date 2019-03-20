@@ -6,4 +6,5 @@ export interface RefineOptions {
   ignoreEmptyArrays?: boolean;
   ignoreEmptyObjects?: boolean;
   ignoreEmptyStrings?: boolean;
+  ignoreZeros?: boolean;
 }

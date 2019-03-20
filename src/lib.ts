@@ -4,7 +4,7 @@ import { RefineOptions } from './types';
 
 // --- Assertion helpers ---------------------------------------------------- //
 
-const filterObj = (obj, predicate) =>
+const filterObj = (obj: any, predicate: any) =>
   Object.keys(obj)
     .filter(key => predicate(obj[key]))
     .reduce((result, key) => Object.assign(result, { [key]: obj[key] }), {});
@@ -20,15 +20,16 @@ function assertObjectTag(check: string, value: any) {
 }
 
 const isArray = Array.isArray;
-const isIterable = value =>
-  assertObjectTag('Function', value && value[Symbol.iterator]);
-const isFunction = value => assertObjectTag('Function', value);
-const isString = value => assertObjectTag('String', value);
-const isNull = value => assertObjectTag('Null', value);
-const isUndefined = value => assertObjectTag('Undefined', value);
-const isNil = value => isNull(value) || isUndefined(value);
-const isObject = value => typeof value === 'object';
-const isPlainObject = value => {
+const isIterable = (value: any) =>
+  typeof (value && value[Symbol.iterator]) === 'function';
+const isFunction = (value: any) => typeof value === 'function';
+const isNumber = (value: any) => typeof value === 'number';
+const isString = (value: any) => typeof value === 'string';
+const isNull = (value: any) => value === null;
+const isUndefined = (value: any) => typeof value === 'undefined';
+const isNil = (value: any) => isNull(value) || isUndefined(value);
+const isObject = (value: any) => typeof value === 'object';
+const isPlainObject = (value: any) => {
   if (!isObject(value) || !assertObjectTag('Object', value)) return false;
   if (isNull(Object.getPrototypeOf(value))) return true;
 
@@ -40,7 +41,7 @@ const isPlainObject = value => {
   return Object.getPrototypeOf(value) === proto;
 };
 
-function isEmpty(value) {
+function isEmpty(value: any) {
   if (isNil(value)) return true;
   if (isIterable(value)) return value[Symbol.iterator]().next().done;
   if (isObject(value)) return !Object.keys(value).length;
@@ -48,11 +49,12 @@ function isEmpty(value) {
 }
 
 function predicate(options: RefineOptions) {
-  return value => {
+  return (value: any) => {
     // Ignore functions
     if (isFunction(value)) return true;
 
-    // Types
+    // Type assertions
+    const number = isNumber(value);
     const string = isString(value);
     const array = isArray(value);
     const object = isPlainObject(value);
@@ -70,8 +72,11 @@ function predicate(options: RefineOptions) {
     const emptyAny =
       !options.ignoreEmptyAny && (emptyString || emptyArray || emptyObject);
 
-    // Result of nil / empty tests
-    return !(nil || emptyAny);
+    // Test for zeros
+    const zero = !options.ignoreZeros && (number && value === 0);
+
+    // Result of nil / empty / zero tests
+    return !(nil || emptyAny || zero);
   };
 }
 
