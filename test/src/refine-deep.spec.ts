@@ -5,8 +5,8 @@ import { refineDeep } from '../../src/lib';
 
 // -------------------------------------------------------------------------- //
 
-@TestFixture('Shallow Tests')
-export class ShallowTestFixture {
+@TestFixture('Recursive Tests')
+export class RecursiveTestFixture {
   @Test('Cleans `undefined`')
   public cleansUndefinedTest() {
     const obj = refineDeep({ foo: { bar: undefined, baz: 'hello world' } });
