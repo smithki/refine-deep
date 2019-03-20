@@ -38,7 +38,7 @@ export class RecursiveTestFixture {
   }
 
   @Test('Keeps `nil` values')
-  public keepsNilValues() {
+  public keepsNilValuesTest() {
     const obj = refineDeep(
       { foo: { bar: undefined, baz: null } },
       { ignoreNil: true },
@@ -47,7 +47,7 @@ export class RecursiveTestFixture {
   }
 
   @Test('Keeps empty values')
-  public keepsEmptyValues() {
+  public keepsEmptyValuesTest() {
     const arr = refineDeep([[''], [{}], [[]]], { ignoreEmptyAny: true });
     Expect((arr[0] as any)[0]).toEqual('');
     Expect((arr[1] as any)[0]).toEqual({});

@@ -51,13 +51,13 @@ export class ShallowTestFixture {
   }
 
   @Test('Keeps `nil` values')
-  public keepsNilValues() {
+  public keepsNilValuesTest() {
     const obj = refine({ foo: undefined, bar: null }, { ignoreNil: true });
     Expect(Object.keys(obj)).toEqual(['foo', 'bar']);
   }
 
   @Test('Keeps empty values')
-  public keepsEmptyValues() {
+  public keepsEmptyValuesTest() {
     const arr = refine(['', {}, []], { ignoreEmptyAny: true });
     Expect(arr[0]).toEqual('');
     Expect(arr[1]).toEqual({});
