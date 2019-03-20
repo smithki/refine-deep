@@ -9,85 +9,109 @@ import { refineDeep } from '../../src/lib';
 export class ShallowTestFixture {
   @Test('Cleans `undefined`')
   public cleansUndefinedTest() {
-    const obj = refineDeep({ foo: { bar: undefined, baz: 'hello' } });
+    const obj = refineDeep({ foo: { bar: undefined, baz: 'hello world' } });
     Expect(Object.keys(obj.foo as any)).toEqual(['baz']);
   }
 
-  // @Test('Cleans `null`')
-  // public cleansNullTest() {
-  //   const obj = refineDeep({ foo: 'hello', bar: null });
-  //   Expect(Object.keys(obj)).toEqual(['foo']);
-  // }
+  @Test('Cleans `null`')
+  public cleansNullTest() {
+    const obj = refineDeep({ foo: { bar: null, baz: 'hello world' } });
+    Expect(Object.keys(obj.foo as any)).toEqual(['baz']);
+  }
 
-  // @Test('Cleans `undefined` but not `null`')
-  // public cleansUndefinedButNotNullTest() {
-  //   const obj = refineDeep({ foo: null, bar: undefined }, { ignoreNull: true });
-  //   Expect(Object.keys(obj)).toEqual(['foo']);
-  // }
+  @Test('Cleans `undefined` but not `null`')
+  public cleansUndefinedButNotNullTest() {
+    const obj = refineDeep(
+      { foo: { bar: undefined, baz: null } },
+      { ignoreNull: true },
+    );
+    Expect(Object.keys(obj.foo as any)).toEqual(['baz']);
+  }
 
-  // @Test('Cleans `null` but not `undefined`')
-  // public cleansNullButNotUndefinedTest() {
-  //   const obj = refineDeep(
-  //     { foo: null, bar: undefined },
-  //     { ignoreUndefined: true },
-  //   );
-  //   Expect(Object.keys(obj)).toEqual(['bar']);
-  // }
+  @Test('Cleans `null` but not `undefined`')
+  public cleansNullButNotUndefinedTest() {
+    const obj = refineDeep(
+      { foo: { bar: undefined, baz: null } },
+      { ignoreUndefined: true },
+    );
+    Expect(Object.keys(obj.foo as any)).toEqual(['bar']);
+  }
 
-  // @Test('Cleans empty strings')
-  // public cleansEmptyStringsTest() {
-  //   const obj = refineDeep({ foo: 'hello', bar: '' });
-  //   Expect(Object.keys(obj)).toEqual(['foo']);
-  // }
+  @Test('Keeps `nil` values')
+  public keepsNilValues() {
+    const obj = refineDeep(
+      { foo: { bar: undefined, baz: null } },
+      { ignoreNil: true },
+    );
+    Expect(Object.keys(obj.foo as any)).toEqual(['bar', 'baz']);
+  }
 
-  // @Test('Keeps empty strings')
-  // public keepsEmptyStringsTest() {
-  //   const obj = refineDeep(
-  //     { foo: 'hello', bar: '' },
-  //     { ignoreEmptyStrings: true },
-  //   );
-  //   Expect(Object.keys(obj)).toEqual(['foo', 'bar']);
-  // }
+  @Test('Keeps empty values')
+  public keepsEmptyValues() {
+    const arr = refineDeep([[''], [{}], [[]]], { ignoreEmptyAny: true });
+    Expect((arr[0] as any)[0]).toEqual('');
+    Expect((arr[1] as any)[0]).toEqual({});
+    Expect((arr[2] as any)[0]).toEqual([]);
+    Expect(arr.length).toEqual(3);
+  }
 
-  // @Test('Cleans empty arrays')
-  // public cleansEmptyArraysTest() {
-  //   const obj = refineDeep({ foo: 'hello', bar: [] });
-  //   Expect(Object.keys(obj)).toEqual(['foo']);
-  // }
+  @Test('Cleans empty strings')
+  public cleansEmptyStringsTest() {
+    const obj = refineDeep({ foo: { bar: '', baz: 'hello world' } });
+    Expect(Object.keys(obj.foo as any)).toEqual(['baz']);
+  }
 
-  // @Test('Keeps empty arrays')
-  // public keepsEmptyArraysTest() {
-  //   const obj = refineDeep(
-  //     { foo: 'hello', bar: [] },
-  //     { ignoreEmptyArrays: true },
-  //   );
-  //   Expect(Object.keys(obj)).toEqual(['foo', 'bar']);
-  // }
+  @Test('Keeps empty strings')
+  public keepsEmptyStringsTest() {
+    const obj = refineDeep(
+      { foo: { bar: '', baz: 'hello world' } },
+      { ignoreEmptyStrings: true },
+    );
+    Expect(Object.keys(obj.foo as any)).toEqual(['bar', 'baz']);
+  }
 
-  // @Test('Cleans empty objects')
-  // public cleansEmptyObjectsTest() {
-  //   const obj = refineDeep({ foo: 'hello', bar: {} });
-  //   Expect(Object.keys(obj)).toEqual(['foo']);
-  // }
+  @Test('Cleans empty arrays')
+  public cleansEmptyArraysTest() {
+    const obj = refineDeep({ foo: { bar: [], baz: 'hello world' } });
+    Expect(Object.keys(obj.foo as any)).toEqual(['baz']);
+  }
 
-  // @Test('Keeps empty objects')
-  // public keepsEmptyObjectsTest() {
-  //   const obj = refineDeep(
-  //     { foo: 'hello', bar: {} },
-  //     { ignoreEmptyObjects: true },
-  //   );
-  //   Expect(Object.keys(obj)).toEqual(['foo', 'bar']);
-  // }
+  @Test('Keeps empty arrays')
+  public keepsEmptyArraysTest() {
+    const obj = refineDeep(
+      { foo: { bar: [], baz: 'hello world' } },
+      { ignoreEmptyArrays: true },
+    );
+    Expect(Object.keys(obj.foo as any)).toEqual(['bar', 'baz']);
+  }
 
-  // @Test('Cleans zeros')
-  // public cleansZerosTest() {
-  //   const obj = refineDeep({ foo: 'hello', bar: 0 });
-  //   Expect(Object.keys(obj)).toEqual(['foo']);
-  // }
+  @Test('Cleans empty objects')
+  public cleansEmptyObjectsTest() {
+    const obj = refineDeep({ foo: { bar: {}, baz: 'hello world' } });
+    Expect(Object.keys(obj.foo as any)).toEqual(['baz']);
+  }
 
-  // @Test('Keeps zeros')
-  // public keepsZerosTest() {
-  //   const obj = refineDeep({ foo: 'hello', bar: 0 }, { ignoreZeros: true });
-  //   Expect(Object.keys(obj)).toEqual(['foo', 'bar']);
-  // }
+  @Test('Keeps empty objects')
+  public keepsEmptyObjectsTest() {
+    const obj = refineDeep(
+      { foo: { bar: {}, baz: 'hello world' } },
+      { ignoreEmptyObjects: true },
+    );
+    Expect(Object.keys(obj.foo as any)).toEqual(['bar', 'baz']);
+  }
+
+  @Test('Cleans zeros')
+  public cleansZerosTest() {
+    const obj = refineDeep({ foo: { bar: 0, baz: 'hello world' } });
+    Expect(Object.keys(obj.foo as any)).toEqual(['baz']);
+  }
+
+  @Test('Keeps zeros')
+  public keepsZerosTest() {
+    const obj = refineDeep(
+      { foo: { bar: 0, baz: 'hello world' } },
+      { ignoreZeros: true },
+    );
+    Expect(Object.keys(obj.foo as any)).toEqual(['bar', 'baz']);
+  }
 }
