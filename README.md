@@ -33,7 +33,7 @@ import { refine } from 'refine-deep';
 refine(['hello world', null, 0, undefined, '', [], {}]);
 // => ['hello world']
 
-refine({ helloWorld: '', foo: 'bar', baz: null});
+refine({ helloWorld: '', foo: 'bar', baz: null });
 // => { foo: 'bar' }
 ```
 
