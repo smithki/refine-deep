@@ -114,4 +114,19 @@ export class RecursiveTestFixture {
     );
     Expect(Object.keys(obj.foo as any)).toEqual(['bar', 'baz']);
   }
+
+  @Test('Cleans NaN')
+  public cleansNaNTest() {
+    const obj = refineDeep({ foo: { bar: NaN, baz: 'hello world' } });
+    Expect(Object.keys(obj.foo as any)).toEqual(['baz']);
+  }
+
+  @Test('Keeps NaN')
+  public keepsNaNTest() {
+    const obj = refineDeep(
+      { foo: { bar: NaN, baz: 'hello world' } },
+      { ignoreNaN: true },
+    );
+    Expect(Object.keys(obj.foo as any)).toEqual(['bar', 'baz']);
+  }
 }

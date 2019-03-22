@@ -7,4 +7,5 @@ export interface RefineOptions {
   ignoreEmptyObjects?: boolean;
   ignoreEmptyStrings?: boolean;
   ignoreZeros?: boolean;
+  ignoreNaN?: boolean;
 }

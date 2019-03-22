@@ -121,4 +121,16 @@ export class ShallowTestFixture {
     const obj = refine({ foo: 'hello world', bar: 0 }, { ignoreZeros: true });
     Expect(Object.keys(obj)).toEqual(['foo', 'bar']);
   }
+
+  @Test('Cleans NaN')
+  public cleansNaNTest() {
+    const obj = refine({ foo: 'hello world', bar: NaN });
+    Expect(Object.keys(obj)).toEqual(['foo']);
+  }
+
+  @Test('Keeps NaN')
+  public keepsNaNTest() {
+    const obj = refine({ foo: 'hello world', bar: NaN }, { ignoreNaN: true });
+    Expect(Object.keys(obj)).toEqual(['foo', 'bar']);
+  }
 }

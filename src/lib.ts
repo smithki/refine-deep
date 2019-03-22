@@ -72,11 +72,12 @@ function predicate(options: RefineOptions) {
     const emptyAny =
       !options.ignoreEmptyAny && (emptyString || emptyArray || emptyObject);
 
-    // Test for zeros
+    // Test for zeros and NaN
     const zero = !options.ignoreZeros && (number && value === 0);
+    const nan = !options.ignoreNaN && (number && isNaN(value));
 
-    // Result of nil / empty / zero tests
-    return !(nil || emptyAny || zero);
+    // Result of nil / empty / zero / NaN tests
+    return !(nil || emptyAny || zero || nan);
   };
 }
 
