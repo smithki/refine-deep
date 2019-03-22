@@ -60,5 +60,5 @@ export interface RefineOptions {
   ignoreZeros?: boolean; // Retain zeros.
 }
 
-refine(myCollection, { ignore*: true});
+refine(myCollection, { ignore*: true });
 ```
