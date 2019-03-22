@@ -84,7 +84,7 @@ function predicate(options: RefineOptions) {
 // --- Main business logic -------------------------------------------------- //
 
 /**
- * Create a streamlined object free of null, undefined, empty strings, empty
+ * Create a streamlined object free of null, undefined, zeros, empty strings, empty
  * arrays, or empty objects.
  *
  * @param collection The collection (object or array) to clean.
@@ -115,7 +115,7 @@ export function refine<T extends object>(
 }
 
 /**
- * Recursively create a streamlined object free of null, undefined, empty
+ * Recursively create a streamlined object free of null, undefined, zeros empty
  * strings, empty arrays, or empty objects.
  *
  * @param collection The collection (object or array) to refine deeply.

@@ -30,8 +30,11 @@ npm install refine-deep
 ```ts
 import { refine } from 'refine-deep';
 
-refine(['hello world', null, 0, undefined, '', [], {}]) // => ['hello world']
-refine({ helloWorld: '', foo: 'bar', baz: null}) // => { foo: 'bar' }
+refine(['hello world', null, 0, undefined, '', [], {}]);
+// => ['hello world']
+
+refine({ helloWorld: '', foo: 'bar', baz: null});
+// => { foo: 'bar' }
 ```
 
 ### Recursive functionality
@@ -39,12 +42,15 @@ refine({ helloWorld: '', foo: 'bar', baz: null}) // => { foo: 'bar' }
 ```ts
 import { refineDeep } from 'refine-deep';
 
-refineDeep([[null, [999]], { hello: 'world', foo: { bar: 1234, baz: null } }]) // => [[[999]], { hello: 'world', foo: { bar: 1234 } }]
+refineDeep([[null, [999]], { hello: 'world', foo: { bar: 1234, baz: null } }]);
+// => [[[999]], { hello: 'world', foo: { bar: 1234 } }]
 ```
 
 ### Configuration
 
 You can configure `refine` and `refineDeep` with the same options:
+
+> _All options are `false` by default_
 
 ```ts
 export interface RefineOptions {
@@ -58,7 +64,5 @@ export interface RefineOptions {
   ignoreZeros?: boolean; // Retain zeros.
 }
 
-refine(myCollection, { ignore*: true});
+refine(myCollection, { ignore*: true });
 ```
-
-> All options are `false` by default.
