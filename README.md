@@ -46,6 +46,15 @@ refineDeep([[null, [999]], { hello: 'world', foo: { bar: 1234, baz: null } }]);
 // => [[[999]], { hello: 'world', foo: { bar: 1234 } }]
 ```
 
+You can optionally specify a maximum recursion depth as the last argument to `refineDeep`:
+
+```ts
+refineDeep(myCollection, depth);
+refineDeep(myCollection, options, depth);
+```
+
+If no depth is indicated, `Infinity` is assumed.
+
 ### Configuration
 
 You can configure `refine` and `refineDeep` with the same options:
@@ -65,4 +74,5 @@ export interface RefineOptions {
 }
 
 refine(myCollection, { ignore*: true });
+refineDeep(myCollection, { ignore*: true }, depth?: number);
 ```
