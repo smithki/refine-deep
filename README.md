@@ -46,6 +46,8 @@ refineDeep([[null, [999]], { hello: 'world', foo: { bar: 1234, baz: null } }]) /
 
 You can configure `refine` and `refineDeep` with the same options:
 
+> _All options are `false` by default_
+
 ```ts
 export interface RefineOptions {
   ignoreNil?: boolean; // Retain `null` and `undefined` values.
@@ -60,5 +62,3 @@ export interface RefineOptions {
 
 refine(myCollection, { ignore*: true});
 ```
-
-> All options are `false` by default.
