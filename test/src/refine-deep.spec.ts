@@ -1,7 +1,7 @@
 // --- Imports -------------------------------------------------------------- //
 
 import { Expect, Test, TestFixture } from 'alsatian';
-import { refineDeep } from '../../src/lib';
+import { refine, refineDeep } from '../../src/lib';
 
 // -------------------------------------------------------------------------- //
 
@@ -128,5 +128,38 @@ export class RecursiveTestFixture {
       { ignoreNaN: true },
     );
     Expect(Object.keys(obj.foo as any)).toEqual(['bar', 'baz']);
+  }
+
+  @Test('Recurses to the specified depth')
+  public recursionDepthTest() {
+    const testObj = [
+      {
+        foo: {
+          boo: 0,
+          bar: {
+            baz: {
+              hello: 'world',
+              qwerty: null,
+            },
+          },
+        },
+      },
+    ];
+
+    const depthInfinity = refineDeep({ ...testObj });
+    const depth2 = refineDeep({ ...testObj }, 2);
+    const depth0 = refineDeep({ ...testObj }, 0);
+
+    Expect(Object.keys((depthInfinity[0] as any).foo.bar.baz)).toEqual([
+      'hello',
+    ]);
+
+    Expect(Object.keys((depth2[0] as any).foo)).toEqual(['bar']);
+    Expect(Object.keys((depth2[0] as any).foo.bar.baz)).toEqual([
+      'hello',
+      'qwerty',
+    ]);
+
+    Expect(Object.keys((depth0[0] as any).foo)).toEqual(['boo', 'bar']);
   }
 }

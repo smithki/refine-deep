@@ -119,21 +119,31 @@ export function refine<T extends object>(
  * strings, empty arrays, or empty objects.
  *
  * @param collection The collection (object or array) to refine deeply.
- * @param options Customize which nil or empty values will be omitted.
+ * @param options Customize which nil, empty, or falsey number values will be omitted.
+ * @param depth Specify the depth of recursion. Defaults to `Infinity`.
  */
+// tslint:disable:prettier
+export function refineDeep<T extends object>(collection: T, options?: RefineOptions, depth?: number): Partial<T>
+export function refineDeep<T extends object>(collection: T, depth?: number): Partial<T>;
+// tslint:enable:prettier
 export function refineDeep<T extends object>(
   collection: T,
-  options: RefineOptions = {},
+  optionsOrDepthArg: RefineOptions | number = {},
+  depthArg: number = Infinity,
 ): Partial<T> {
   const result: any = collection;
+  const options =
+    typeof optionsOrDepthArg === 'number' ? {} : optionsOrDepthArg;
+  const depth =
+    typeof optionsOrDepthArg === 'number' ? optionsOrDepthArg : depthArg;
 
   for (const i in result) {
     let value = result[i]; // Save a reference to the current value.
     // Execute refine() on current value.
     value = refine(value, options);
     // If value is object (including array), recurse deeply.
-    if (isObject(value)) {
-      value = refineDeep(value, options);
+    if (isObject(value) && depth > 0) {
+      value = refineDeep(value, options, depth - 1);
     }
     result[i] = value; // Apply the transformed value.
   }
