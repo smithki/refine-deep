@@ -76,3 +76,14 @@ export interface RefineOptions {
 refine(myCollection, { ignore*: true });
 refineDeep(myCollection, { ignore*: true }, depth?: number);
 ```
+
+### UMD interface
+
+If using `refine-deep` as a UMD module (for instance, via [unpkg](https://unpkg.com/refine-deep@3.0.0)), usage is _slightly_ different:
+
+```ts
+refine(...) // Exactly the same, non-recursive.
+
+// For recursive behavior, use the following:
+refine.deep(...) // Type signature is equivalent to `refineDeep`.
+```
