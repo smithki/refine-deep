@@ -70,6 +70,7 @@ export interface RefineOptions {
   ignoreEmptyObjects?: boolean; // Retain empty objects.
   ignoreEmptyStrings?: boolean; // Retain empty strings.
   ignoreZeros?: boolean; // Retain zeros.
+  ignoreNaN?: boolean; // Retain NaN.
 }
 
 refine(myCollection, { ignore*: true });
